@@ -4,6 +4,7 @@ import org.evercley.picpaydesafiobackend.entities.Usuario;
 import org.evercley.picpaydesafiobackend.entities.UsuarioComum;
 import org.evercley.picpaydesafiobackend.entities.UsuarioLojista;
 import org.evercley.picpaydesafiobackend.exceptions.InsufficientFundException;
+import org.evercley.picpaydesafiobackend.exceptions.UnauthorizedExcpetion;
 import org.evercley.picpaydesafiobackend.exceptions.UsuarioNotFoundException;
 import org.evercley.picpaydesafiobackend.repositories.UsuarioComumRepository;
 import org.evercley.picpaydesafiobackend.repositories.UsuarioLojistaRepository;
@@ -26,7 +27,7 @@ public class TransferService {
     public void transfer(Double value, Long payerId, Long payeeId) {
         Boolean authorized = authorizationService.authorizeTransaction(payerId, value);
         if (!authorized) {
-
+            throw new UnauthorizedExcpetion("Unauthorized transaction");
         }
         UsuarioComum payer = usuarioComumRepository.findById(payerId)
                 .orElseThrow(() -> new UsuarioNotFoundException("Payer not found"));
