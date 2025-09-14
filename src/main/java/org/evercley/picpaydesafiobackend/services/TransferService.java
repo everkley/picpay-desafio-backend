@@ -14,14 +14,20 @@ import org.springframework.transaction.annotation.Transactional;
 public class TransferService {
     private final UsuarioComumRepository usuarioComumRepository;
     private final UsuarioLojistaRepository usuarioLojistaRepository;
+    private final AuthorizationService authorizationService;
 
     public TransferService(UsuarioComumRepository usuarioComumRepository,
-                           UsuarioLojistaRepository usuarioLojistaRepository) {
+                           UsuarioLojistaRepository usuarioLojistaRepository, AuthorizationService authorizationService) {
         this.usuarioComumRepository = usuarioComumRepository;
         this.usuarioLojistaRepository = usuarioLojistaRepository;
+        this.authorizationService = authorizationService;
     }
     @Transactional
     public void transfer(Double value, Long payerId, Long payeeId) {
+        Boolean authorized = authorizationService.authorizeTransaction(payerId, value);
+        if (!authorized) {
+
+        }
         UsuarioComum payer = usuarioComumRepository.findById(payerId)
                 .orElseThrow(() -> new UsuarioNotFoundException("Payer not found"));
 

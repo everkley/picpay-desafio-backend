@@ -1,6 +1,7 @@
 package org.evercley.picpaydesafiobackend.handlers;
 
 import org.evercley.picpaydesafiobackend.exceptions.InsufficientFundException;
+import org.evercley.picpaydesafiobackend.exceptions.UnauthorizedExcpetion;
 import org.evercley.picpaydesafiobackend.exceptions.UsuarioNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,5 +30,14 @@ public class UsuarioExceptionHandler {
         response.put("error", "Fundos insuficientes");
         response.put("message", e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(UnauthorizedExcpetion.class)
+    public ResponseEntity<Map<String, Object>> Unauthorized(UnauthorizedExcpetion e) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", HttpStatus.UNAUTHORIZED);
+        response.put("error", "Transação não autorizada");
+        response.put("message", e.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 }
