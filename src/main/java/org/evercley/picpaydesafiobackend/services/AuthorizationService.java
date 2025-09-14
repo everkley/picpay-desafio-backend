@@ -1,6 +1,5 @@
 package org.evercley.picpaydesafiobackend.services;
 
-import org.evercley.picpaydesafiobackend.dtos.AuthorizeRequestDTO;
 import org.evercley.picpaydesafiobackend.dtos.AuthorizeResponseDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -13,19 +12,18 @@ public class AuthorizationService {
         this.webClient = webClientBuilder.baseUrl("https://util.devi.tools/api/v2").build();
     }
 
-    public boolean authorizeTransaction(Long payerId, Double value) {
-        AuthorizeRequestDTO requestDTO = new AuthorizeRequestDTO();
-        requestDTO.setPayerId(payerId);
-        requestDTO.setValue(value);
-
-        AuthorizeResponseDTO responseDTO = webClient.post()
-                .uri("/authorize")
-                .bodyValue(requestDTO)
+    public Boolean authorizeTransaction(Long payerId, Double value) {
+        AuthorizeResponseDTO responseDTO = webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/authorize")
+                        .build()
+                )
                 .retrieve()
                 .bodyToMono(AuthorizeResponseDTO.class)
                 .block();
 
-        return responseDTO != null && responseDTO.isAuthorized();
+        return responseDTO != null
+                && responseDTO.getData().isAuthozization();
     }
 
 }

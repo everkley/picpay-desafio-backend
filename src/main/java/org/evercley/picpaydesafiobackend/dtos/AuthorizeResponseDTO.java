@@ -1,22 +1,22 @@
 package org.evercley.picpaydesafiobackend.dtos;
 
 public class AuthorizeResponseDTO {
-    private Boolean authorized;
-    private String message;
+    private String status;
+    private AuthorizationDataDTO data;
 
-    public Boolean isAuthorized() {
-        return authorized;
+    public String getStatus() {
+        return status;
     }
 
-    public void setAuthorized(Boolean authorized) {
-        this.authorized = authorized;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public String getMessage() {
-        return message;
+    public AuthorizationDataDTO getData() {
+        return data;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setData(AuthorizationDataDTO data) {
+        this.data = data;
     }
 }
