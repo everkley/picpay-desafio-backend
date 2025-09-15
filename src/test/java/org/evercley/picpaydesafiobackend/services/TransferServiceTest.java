@@ -54,7 +54,7 @@ class TransferServiceTest {
         verify(usuarioComumRepository).save(payee);
     }
     @Test
-    @DisplayName("Deve criar transferência de comum para lojista com sucesso")
+    @DisplayName("Deve criar transferência de usuário comum para usuário lojista com sucesso")
     void transferSuccessComumParaLojista() {
         UsuarioComum payer = new UsuarioComum();
         payer.setId(1L);
